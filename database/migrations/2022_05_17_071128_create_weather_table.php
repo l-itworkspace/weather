@@ -20,8 +20,7 @@ return new class extends Migration
             $table->unsignedInteger('city_id')->index()->nullable();
             $table->text('latitude');
             $table->text('longitude');
-            $table->string('temp');
-            $table->string('expires_at');
+            $table->string('temperature');
         });
     }
 
