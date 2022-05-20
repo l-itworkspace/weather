@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Contracts\WeatherRepositoryContract;
 use App\ExternalAPI\WeatherAPI\WeatherContext;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\WeatherRequest;
 use App\Services\WeatherService;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cache;
 
@@ -18,6 +17,10 @@ class WeatherController extends Controller
     private WeatherContext $weatherContext;
     private WeatherRepositoryContract $weatherRepository;
 
+    /**
+     * @param WeatherContext $weatherContext
+     * @param WeatherRepositoryContract $weatherRepository
+     */
     public function __construct(
         WeatherContext $weatherContext,
         WeatherRepositoryContract $weatherRepository
@@ -27,7 +30,11 @@ class WeatherController extends Controller
         $this->weatherRepository = $weatherRepository;
     }
 
-    public function getWeather(WeatherRequest $request)
+    /**
+     * @param WeatherRequest $request
+     * @return JsonResponse
+     */
+    public function getWeather(WeatherRequest $request): JsonResponse
     {
         $temperature = Cache::get($request->latitude . '.' . $request->longitude);
 

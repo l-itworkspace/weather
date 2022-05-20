@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\API\{
+    LocationController,
+    WeatherController
+};
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,6 +17,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [App\Http\Controllers\SiteController::class, 'index']);
-Route::get('/getStatesByCountry/{countryId}', [App\Http\Controllers\SiteController::class, 'getStatesByCountry']);
-Route::get('/getCitiesByState/{stateId}', [App\Http\Controllers\SiteController::class, 'getCitiesByState']);
-Route::post('/getWeather', [App\Http\Controllers\WeatherController::class, 'getWeather']);
+
+// API routes
+Route::middleware(['api'])->group(function () {
+    // LocationController routes
+    Route::get('/country/{country}', [LocationController::class, 'country']);
+    Route::get('/state/{state}', [LocationController::class, 'state']);
+
+    // WeatherController routes
+    Route::post('/weather', [WeatherController::class, 'getWeather']);
+});
